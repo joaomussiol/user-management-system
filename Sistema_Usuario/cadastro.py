@@ -1,7 +1,11 @@
 import sqlite3
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "usuarios.db")
 
 def cadastrar_usuarios(nome, senha, telefone):
-    conexao = sqlite3.connect("usuarios.db")
+    conexao = sqlite3.connect(DB_PATH)
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -12,4 +16,33 @@ def cadastrar_usuarios(nome, senha, telefone):
     conexao.commit()
     conexao.close()
 
-cadastrar_usuarios("João", "1234", "48999999999")
+def listar_usuarios():
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT * FROM usuarios")
+    usuarios = cursor. fetchall()
+
+    for usuario in usuarios:
+        print(f"ID: {usuario[0]} | Nome: {usuario[1]} | Telefone: {usuario[3]}")
+
+    conexao.close()
+
+def apagar_todos_usuarios():
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    cursor.execute ("DELETE FROM usuarios")
+
+    conexao.commit()
+    conexao.close()
+
+def apagar_usuario(id):
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    cursor.execute("DELETE FROM usuarios WHERE id = ?", (id,))
+    
+    conexao.commit()
+    conexao.close()
+    
