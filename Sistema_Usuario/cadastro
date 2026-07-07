@@ -1,0 +1,42 @@
+import sqlite3
+
+def cadastrar_usuarios(nome, senha, telefone):
+    conexao = sqlite3.connect("usuarios.db")
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+                INSERT INTO usuarios (nome, senha, telefone)
+                VALUES(?, ?, ?)
+                """, (nome, senha, telefone))
+    
+    conexao.commit()
+    conexao.close()
+
+
+def listar_usuarios():
+    conexao = sqlite3.connect("usuarios.db")
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT * FROM usuarios")
+    usuarios = cursor.fetchall()
+
+    for usuario in usuarios:
+        print(f"ID: {usuario[0]} | Nome: {usuario[1]} | Telefone: {usuario[3]}")
+
+    conexao.close()
+
+def apagar_todos_usuarios():
+    conexao = sqlite3.connect("usuarios.db")
+    cursor = conexao.cursor()
+    cursor.execute ("DELETE FROM usuarios")
+
+    conexao.commit()
+    conexao.close()
+
+def apagar_usuario(id):
+    conexao = sqlite3.connect("usuarios.db")
+    cursor = conexao.cursor()
+    cursor.execute ("DELETE FROM usuarios WHERE id = ?", (id,))
+
+    conexao.commit()
+    conexao.close()
