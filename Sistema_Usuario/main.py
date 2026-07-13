@@ -1,6 +1,6 @@
 from cadastro import cadastrar_usuarios, listar_usuarios, apagar_todos_usuarios, apagar_usuario
 
-def solicitar_cadastro():
+def solicitar_cadastro(): # solicita os dados do usuário e valida as entradas. Opção 1 do menu.
     while True:
         nome = input("Digite o nome do usuário:")
         if nome.strip() == "":
@@ -43,7 +43,16 @@ def solicitar_cadastro():
         
     cadastrar_usuarios(nome, senha, telefone_limpo)
 
-def solicitar_apagar_usuario():
+def exibir_usuarios(): # lista os usuários cadastrados. Opção 2 do menu.
+    usuarios = listar_usuarios()
+    if not usuarios:
+        print("Nenhum usuário cadastrado.")
+    else:
+        print("Usuários cadastrados:")
+        for usuario in usuarios:
+            print(f"ID: {usuario[0]} | Nome: {usuario[1]} | Telefone: {usuario[3]}")
+
+def solicitar_apagar_usuario(): # solicita o ID do usuário que deseja apagar. Opção 3 do menu.
     listar_usuarios()
     input_usuario_id = input("Digite o ID do usuário que deseja apagar:")
     if input_usuario_id.isdigit() and input_usuario_id.strip():
@@ -52,14 +61,14 @@ def solicitar_apagar_usuario():
     else:
         print("ID inválido. Por favor, insira um número válido.")
 
-def solicitar_apagar_todos_usuarios():
+def solicitar_apagar_todos_usuarios(): # solicita confirmação para apagar todos os usuários. Opção 4 do menu.
     confirmacao = input("Tem certeza que deseja apagar todos os usuários? (s/n):")
     if confirmacao.lower().strip() == "s":
         apagar_todos_usuarios()
     else:
         print("Operação cancelada.")
 
-def menu():
+def menu(): # exibe o menu principal e lida com as opções do usuário.
     while True:
         print("Escolha entre \n 1) Cadastrar usuário \n 2) Listar usuário \n 3) Apagar um usuário \n 4) Apagar todos os usuários \n 5) Sair")
         opcao = input("Digite a opção desejada: ")
@@ -68,7 +77,7 @@ def menu():
             solicitar_cadastro()
 
         elif opcao == "2":
-            listar_usuarios()
+            exibir_usuarios()
 
         elif opcao == "3":
             solicitar_apagar_usuario()

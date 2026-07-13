@@ -26,16 +26,15 @@ def listar_usuarios():
     cursor.execute("SELECT * FROM usuarios")
     usuarios = cursor. fetchall()
 
-    for usuario in usuarios:
-        print(f"ID: {usuario[0]} | Nome: {usuario[1]} | Telefone: {usuario[3]}")
-
     conexao.close()
+    return usuarios
 
 def apagar_todos_usuarios():
     conexao = sqlite3.connect(DB_PATH)
     cursor = conexao.cursor()
 
     cursor.execute ("DELETE FROM usuarios")
+    cursor.execute("DELETE FROM sqlite_sequence WHERE name='usuarios'")
 
     conexao.commit()
     conexao.close()
