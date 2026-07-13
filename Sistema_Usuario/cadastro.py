@@ -1,17 +1,20 @@
 import sqlite3
 import os
+import bcrypt
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "usuarios.db")
 
 def cadastrar_usuarios(nome, senha, telefone):
+    senha_hash = bcrypt.hashpw(senha.encode("utf-8"), bcrypt.gensalt())
+    
     conexao = sqlite3.connect(DB_PATH)
     cursor = conexao.cursor()
 
     cursor.execute("""
                 INSERT INTO usuarios (nome, senha, telefone)
                 VALUES(?, ?, ?)
-                """, (nome, senha, telefone))
+                """, (nome, senha_hash, telefone))
     
     conexao.commit()
     conexao.close()
