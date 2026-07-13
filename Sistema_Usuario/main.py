@@ -43,6 +43,22 @@ def solicitar_cadastro():
         
     cadastrar_usuarios(nome, senha, telefone_limpo)
 
+def solicitar_apagar_usuario():
+    listar_usuarios()
+    input_usuario_id = input("Digite o ID do usuário que deseja apagar:")
+    if input_usuario_id.isdigit() and input_usuario_id.strip():
+        usuario_id = int(input_usuario_id)
+        apagar_usuario(usuario_id)
+    else:
+        print("ID inválido. Por favor, insira um número válido.")
+
+def solicitar_apagar_todos_usuarios():
+    confirmacao = input("Tem certeza que deseja apagar todos os usuários? (s/n):")
+    if confirmacao.lower().strip() == "s":
+        apagar_todos_usuarios()
+    else:
+        print("Operação cancelada.")
+
 def menu():
     while True:
         print("Escolha entre \n 1) Cadastrar usuário \n 2) Listar usuário \n 3) Apagar um usuário \n 4) Apagar todos os usuários \n 5) Sair")
@@ -55,11 +71,10 @@ def menu():
             listar_usuarios()
 
         elif opcao == "3":
-            usuario_id = input("Digite o ID do usuário a ser apagado: ")
-            apagar_usuario(usuario_id)
+            solicitar_apagar_usuario()
 
         elif opcao == "4":
-            apagar_todos_usuarios()
+            solicitar_apagar_todos_usuarios()
 
         elif opcao == "5":
             break
